@@ -1,13 +1,12 @@
 {
   "name": "prbot",
   "version": "0.0.1",
-  "main": "index.js",
   "repository": "https://github.com/blackcowmoo/prbot.git",
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=test nodemon --legacy-watch src/* --exec babel-node --extensions \".ts,.tsx\" src/index.ts",
     "build": "babel src --out-dir build --copy-files --extensions \".ts,.tsx\"",
-    "tslint": "tslint --project .",
+    "tslint": "tslint --project ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
