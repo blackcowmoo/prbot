@@ -2,6 +2,7 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import { webhookHandler } from '@/core/handler';
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err: any, req: any, res: any) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -26,9 +27,7 @@ app.use((err, req, res, next) => {
   res.send('error');
 });
 
-app.get('/webhook', (req: express.Request, res: express.Response) => {
-  res.send('Hello World!');
-});
+app.get('/webhook', webhookHandler);
 
 app.listen(3000, () => {
   console.log('PR Bot listening on port 3000!');
