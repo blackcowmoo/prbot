@@ -22,6 +22,7 @@ jobs:
     - stage: deploy
       if: branch = master
       env:
+        - CLOUDSDK_CORE_DISABLE_PROMPTS=1
         - GOOGLE_APPLICATION_CREDENTIALS="$PWD/gcloud.key.json"
       before_install:
         - | # Install Helm
