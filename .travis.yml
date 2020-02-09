@@ -2,15 +2,53 @@ cache:
   directories:
     - yarn
     - npm
+    - $HOME/.helm
+    - $HOME/google-cloud-sdk
 
-language: node_js
-node_js: 12
+jobs:
+  include:
+    - stage: test
+      language: node_js
+      node_js: 12
+      install:
+        - yarn
+      script:
+        - yarn tslint
+        - yarn build:test
+        - yarn test
+        - yarn test:js
 
-install:
-  - yarn
+    # Helm
+    - stage: deploy
+      if: branch = master
+      env:
+        - GOOGLE_APPLICATION_CREDENTIALS="$PWD/gcloud.key.json"
+      before_install:
+        - | # Install Helm
+          if [ ! -d "$HOME/.helm/bin" ]; then
+            rm -rf "$HOME/.helm"
+            wget https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz
+            tar xf helm-v2.16.1-linux-amd64.tar.gz
+            mkdir -p $HOME/.helm/bin
+            mv linux-amd64/* $HOME/.helm/bin
+            $HOME/.helm/bin/helm init --client-only
+            $HOME/.helm/bin/helm plugin install https://github.com/hayorov/helm-gcs
+          fi
+        - export PATH=$PATH:$HOME/.helm/bin
 
-script:
-  - yarn tslint
-  - yarn build:test
-  - yarn test
-  - yarn test:js
+        # Install Google Cloud SDK
+        - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf "$HOME/google-cloud-sdk"; curl https://sdk.cloud.google.com | bash > /dev/null; fi
+        - source $HOME/google-cloud-sdk/path.bash.inc
+
+        - openssl aes-256-cbc -K $helm_gcs_key -iv $helm_gcs_iv -in gcloud.key.json.enc -out gcloud.key.json -d
+      install:
+        - helm repo add micalgenus-gcs gs://micalgenus/chart
+      before_script:
+        - mv helm prbot
+      script:
+        - helm package prbot
+      before_deploy:
+        - mkdir -p $HOME/.config/helm && cp $HOME/.helm/repository/repositories.yaml $HOME/.config/helm/repositories.yaml
+      deploy:
+        - provider: script
+          script: helm gcs push prbot*.tgz micalgenus-gcs --force --public --publicUrl https://chart.micalgenus.com/
