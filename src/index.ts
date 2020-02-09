@@ -11,6 +11,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.get('/webhook', webhookHandler);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
@@ -26,8 +28,6 @@ app.use((err: any, req: any, res: any) => {
   res.status(err.status || 500);
   res.send('error');
 });
-
-app.get('/webhook', webhookHandler);
 
 app.listen(3000, () => {
   console.log('PR Bot listening on port 3000!');
