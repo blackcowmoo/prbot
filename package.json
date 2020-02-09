@@ -4,10 +4,10 @@
   "repository": "https://github.com/blackcowmoo/prbot.git",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=test nodemon --legacy-watch src/* --exec babel-node --extensions \".ts,.tsx\" src/index.ts",
     "build": "babel src --out-dir build --copy-files --ignore \"**/*.test.ts\" --extensions \".ts,.tsx\"",
     "build:test": "babel src --out-dir build --copy-files --extensions \".ts,.tsx\"",
     "start": "node ./build/index.js",
+    "start:dev": "NODE_ENV=test nodemon -e ts,tsx --legacy-watch src/* --exec babel-node --config-file ./.babelrc --extensions \".ts,.tsx\" ./src/index.ts",
     "tslint": "tslint --project ./",
     "test": "NODE_ENV=test mocha -r ./mocha.js ./src/test/**/*.test.ts",
     "test:js": "NODE_ENV=test mocha ./build/test/**/*.test.js"

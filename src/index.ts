@@ -2,7 +2,7 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import { webhookHandler } from '@/core/handler';
+import { webhookHandler } from '@/core';
 
 const app = express();
 
