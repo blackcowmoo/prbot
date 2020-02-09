@@ -53,3 +53,4 @@ jobs:
       deploy:
         - provider: script
           script: helm gcs push prbot*.tgz micalgenus-gcs --force --public --publicUrl https://chart.micalgenus.com/
+          skip_cleanup: true
