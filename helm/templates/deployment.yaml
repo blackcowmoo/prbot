@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blackcowmoo-prbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blackcowmoo-prbot
+  template:
+    metadata:
+      labels:
+        app: blackcowmoo-prbot
+    spec:
+      containers:
+        - image: blackcowmoo/prbot
+          imagePullPolicy: Always
+          name: blackcowmoo-prbot
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blackcowmoo-prbot
+spec:
+  selector:
+    app: blackcowmoo-prbot
+  ports:
+    - name: webhook
+      port: 3000
+      targetPort: 3000
