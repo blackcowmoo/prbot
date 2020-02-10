@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get('/webhook', webhookHandler);
+app.post('/webhook', webhookHandler);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
