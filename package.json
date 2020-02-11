@@ -9,9 +9,9 @@
     "start": "node ./build/index.js",
     "start:dev": "NODE_ENV=test nodemon -e ts,tsx --legacy-watch src/* --exec \"babel-node --config-file ./.babelrc --extensions '.ts,.tsx' ./src/index.ts\"",
     "tslint": "tslint --project ./",
-    "test": "NODE_ENV=test mocha -r ./mocha.js ./src/test/**/*.test.ts",
+    "test": "NODE_ENV=test mocha -r ./mocha.js ./src/**/*.test.ts",
     "pretest:js": "npm run build:test",
-    "test:js": "NODE_ENV=test mocha ./build/test/**/*.test.js"
+    "test:js": "NODE_ENV=test mocha ./build/**/*.test.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.4",
