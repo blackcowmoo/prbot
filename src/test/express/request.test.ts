@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { requestAsync } from './http';
+import { requestAsync } from '../http';
 
 describe('Express', () => {
   it('Run express (webhook)', async () => {
