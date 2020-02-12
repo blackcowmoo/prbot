@@ -16,7 +16,6 @@ describe('Express', () => {
     const { status } = await requestAsync('POST', '/webhook', {
       headers: { 'X-GitHub-Event': 'pull_request' },
       body: { test: 'test' },
-      
     });
     assert.equal(status, 200);
   });

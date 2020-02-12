@@ -3,6 +3,7 @@ import GitHub from 'github-api';
 
 class GithubAPI {
   private client: GitHub;
+
   constructor(username?: string, password?: string) {
     if (username && password) {
       this.client = new GitHub({ username, password });
