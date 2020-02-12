@@ -21,7 +21,9 @@ interface ChaiRequest {
 }
 
 const app = express();
-app.post('/webhook', webhookHandler);
+app.post('/webhook', (req, res) => {
+  return webhookHandler(req, res).catch(err => res.status(500).send(err));
+});
 
 const initializeClient = (client: SuperAgentRequest, { authorization, body, params, headers }: ChaiRequest = {}) => {
   return setHeaders(
