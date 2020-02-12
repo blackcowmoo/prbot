@@ -1,3 +1,5 @@
+import '@/config';
+
 import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
