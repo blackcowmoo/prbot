@@ -14,7 +14,7 @@ export const webhookHandler = async (req: Request, res: Response) => {
           ignoreMembers.push(process.env.GITHUB_USERNAME);
         }
 
-        github.requestReview(number, ignoreMembers);
+        await github.requestReview(number, ignoreMembers);
       }
       break;
     default:
