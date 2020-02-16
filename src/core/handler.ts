@@ -6,7 +6,6 @@ export const webhookHandler = async (req: Request, res: Response) => {
 
   switch (headers['x-github-event']) {
     case 'pull_request':
-      console.log(req.body);
       break;
     default:
       throw new Error('Invalid event');

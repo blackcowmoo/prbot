@@ -21,6 +21,9 @@ interface ChaiRequest {
 }
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.post('/webhook', (req, res) => {
   return webhookHandler(req, res).catch(err => res.status(500).send(err));
 });
