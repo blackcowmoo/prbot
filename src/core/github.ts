@@ -19,6 +19,17 @@ class GithubAPI {
     this.client = axios.create(axiosConfig);
   }
 
+  public async requestReview(pullNumber: number, user: string) {
+    const reviewers = await this.getReviewers();
+
+    const { data } = await this.client.post(`/repos/${this.organization}/${this.repo}/pulls/${pullNumber}/requested_reviewers`, {
+      reviewers: reviewers.filter(reviewer => reviewer !== user),
+      team_reviewers: [],
+    });
+
+    return data;
+  }
+
   public async getPullRequest(pullNumber: number) {
     const { data } = await this.client.get(`/repos/${this.organization}/${this.repo}/pulls/${pullNumber}`);
     return data;
@@ -34,10 +45,28 @@ class GithubAPI {
     return data;
   }
 
+  private async getReviewers(maxPeople: number = 0) {
+    await this.initialzeMembers();
+
+    const userCount = Math.min(Math.max(1, maxPeople), this.members.length);
+
+    let users = [];
+    do {
+      users = this.members.filter(() => Math.random() > userCount - 1 / this.members.length);
+
+      // if user count > selected users, then re-select users
+      if (users.length > userCount) {
+        users = [];
+      }
+    } while (!users.length);
+
+    return users;
+  }
+
   private async initialzeMembers() {
     if (!this.members?.length) {
       const contirbutors = await this.getContributors();
-      console.log(contirbutors);
+      this.members = contirbutors.map(({ login }) => login);
     }
   }
 }

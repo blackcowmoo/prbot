@@ -12,5 +12,10 @@ describe('Github', () => {
       assert.isObject(info.user);
       assert.isString(info.user.login);
     });
+
+    // local test
+    it.skip('Request review', async () => {
+      await github.requestReview(PULL_NUMBER, 'micalgenus');
+    });
   });
 });
