@@ -19,11 +19,11 @@ class GithubAPI {
     this.client = axios.create(axiosConfig);
   }
 
-  public async requestReview(pullNumber: number, user: string) {
+  public async requestReview(pullNumber: number, skipUsers: string[]) {
     const reviewers = await this.getReviewers();
 
     const { data } = await this.client.post(`/repos/${this.organization}/${this.repo}/pulls/${pullNumber}/requested_reviewers`, {
-      reviewers: reviewers.filter(reviewer => reviewer !== user),
+      reviewers: reviewers.filter(reviewer => !skipUsers.includes(reviewer)),
       team_reviewers: [],
     });
 
@@ -37,6 +37,11 @@ class GithubAPI {
 
   public async getAllOrganizationRepositories() {
     const { data } = await this.client.get(`/orgs/${this.organization}/repos`);
+    return data;
+  }
+
+  public async getOrganizationMembers() {
+    const { data } = await this.client.get(`/orgs/${this.organization}/members`);
     return data;
   }
 
@@ -65,8 +70,9 @@ class GithubAPI {
 
   private async initialzeMembers() {
     if (!this.members?.length) {
-      const contirbutors = await this.getContributors();
-      this.members = contirbutors.map(({ login }) => login);
+      // const contirbutors = await this.getContributors();
+      const member = await this.getOrganizationMembers();
+      this.members = member.map(({ login }) => login);
     }
   }
 }

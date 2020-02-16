@@ -15,7 +15,7 @@ describe('Github', () => {
 
     // local test
     it.skip('Request review', async () => {
-      await github.requestReview(PULL_NUMBER, 'micalgenus');
+      await github.requestReview(PULL_NUMBER, ['micalgenus', 'blackcowmooo']);
     });
   });
 });
