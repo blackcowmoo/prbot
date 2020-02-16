@@ -12,6 +12,8 @@ jobs:
       node_js: 12
       install:
         - yarn
+      before_script:
+        - cp .env.test .env
       script:
         - yarn tslint
         - yarn build:test
