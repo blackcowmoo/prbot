@@ -1,3 +1,5 @@
+import '@/config';
+
 import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
@@ -11,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.post('/webhook', webhookHandler);
+app.post('/webhook', (req, res) => webhookHandler(req, res).catch(() => res.status(500).send('Error')));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
