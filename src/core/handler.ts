@@ -17,6 +17,8 @@ export const webhookHandler = async (req: Request, res: Response) => {
         await github.requestReview(pullNumber, ignoreMembers);
       }
       break;
+    case 'ping':
+      break;
     default:
       throw new Error('Invalid event');
   }
