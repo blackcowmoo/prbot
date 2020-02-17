@@ -6,5 +6,5 @@ prbot:
     repository: 'prbot'
 
 istio:
-  enabled: true
+  enabled: false
   hosts: ''
