@@ -16,6 +16,15 @@ spec:
         - image: blackcowmoo/prbot
           imagePullPolicy: Always
           name: blackcowmoo-prbot
+          env:
+            - name: GITHUB_USERNAME
+              value: {{ .Values.prbot.github.username }}
+            - name: GITHUB_PASSWORD
+              value: {{ .Values.prbot.github.password }}
+            - name: GITHUB_ORGANIZATION
+              value: {{ .Values.prbot.github.organization }}
+            - name: GITHUB_REPOSITORY
+              value: {{ .Values.prbot.github.repository }}
 
 ---
 apiVersion: v1

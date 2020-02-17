@@ -1,3 +1,10 @@
+prbot:
+  github:
+    username: ''
+    password: ''
+    organization: 'blackcowmoo'
+    repository: 'prbot'
+
 istio:
   enabled: true
   hosts: ''
