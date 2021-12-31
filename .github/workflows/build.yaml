@@ -1,0 +1,31 @@
+name: github-actions/build
+on:
+  pull_request:
+    branches:
+      - master
+
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-14-${{ hashFiles('yarn.lock') }}
+
+      - name: Install packages
+        run: yarn
+
+      - name: Run build
+        run: yarn build
